@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:bcs="http://bcci.com/cricket/services"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ScoreBoard"
+	targetNamespace="http://bcci.com/cricket/services" xmlns:bct="http://bcci.com/cricket/types">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://bcci.com/cricket/types">
+			<xsd:element name="match">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="series-name" type="xsd:string" />
+						<xsd:element name="series-type" type="xsd:string" />
+						<xsd:element name="team1" type="xsd:string" />
+						<xsd:element name="team2" type="xsd:string" />
+						<xsd:element name="match-date" type="xsd:dateTime" />
+						<xsd:element name="location" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="score">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="inning-no" type="xsd:int" />
+						<xsd:element name="batting-team" type="xsd:string" />
+						<xsd:element name="bowling-team" type="xsd:string" />
+						<xsd:element name="running-score" type="xsd:int" />
+						<xsd:element name="bowling-over" type="xsd:float" />
+						<xsd:element name="wicket" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="errorDetails">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="error-code" type="xsd:string" />
+						<xsd:element name="error-descr" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="getInningScore">
+		<wsdl:part name="in" element="bct:match" />
+	</wsdl:message>
+	<wsdl:message name="getInningScoreResponse">
+		<wsdl:part name="out" element="bct:score" />
+	</wsdl:message>
+	<wsdl:message name="MatchNotFoundFault">
+		<wsdl:part name="errDetails" element="bct:errorDetails" />
+	</wsdl:message>
+
+	<wsdl:portType name="ScoreBoard">
+		<wsdl:operation name="getInningScore">
+			<wsdl:input message="bcs:getInningScore" />
+			<wsdl:output message="bcs:getInningScoreResponse" />
+			<wsdl:fault name="scoreBoardFault" message="bcs:MatchNotFoundFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ScoreBoardSOAP11Binding" type="bcs:ScoreBoard">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getInningScore">
+			<soap:operation soapAction="http://bcci.com/cricket/services#getInningScore" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="scoreBoardFault">
+				<soap:fault name="MatchNotFoundFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ScoreBoardService">
+		<wsdl:port name="ScoreBoardSOAP11Port" binding="bcs:ScoreBoardSOAP11Binding">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

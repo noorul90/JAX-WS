@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:bis="http://book.com/books/services" xmlns:ns1="http://org.apache.axis2/xsd"
+	xmlns:ns="http://types.cl.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://book.com/books/services">
+	<wsdl:types>
+		<xs:schema attributeFormDefault="qualified"
+			elementFormDefault="qualified" targetNamespace="http://types.cl.com">
+			<xs:element name="getBook">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="bookId" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getBookResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="return" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getBookRequest">
+		<wsdl:part name="parameters" element="ns:getBook" />
+	</wsdl:message>
+	<wsdl:message name="getBookResponse">
+		<wsdl:part name="parameters" element="ns:getBookResponse" />
+	</wsdl:message>
+	<wsdl:portType name="BookInfoImplPortType">
+		<wsdl:operation name="getBook">
+			<wsdl:input message="bis:getBookRequest" wsaw:Action="urn:getBook" />
+			<wsdl:output message="bis:getBookResponse" wsaw:Action="urn:getBookResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BookInfoImplSoap11Binding" type="bis:BookInfoImplPortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="getBook">
+			<soap:operation soapAction="urn:getBook" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="BookInfoImplSoap12Binding" type="bis:BookInfoImplPortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="getBook">
+			<soap12:operation soapAction="urn:getBook" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="BookInfoImplHttpBinding" type="bis:BookInfoImplPortType">
+		<http:binding verb="POST" />
+		<wsdl:operation name="getBook">
+			<http:operation location="getBook" />
+			<wsdl:input>
+				<mime:content type="application/xml" part="parameters" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="application/xml" part="parameters" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BookInfoImpl">
+		<wsdl:port name="BookInfoImplHttpSoap11Endpoint" binding="bis:BookInfoImplSoap11Binding">
+			<soap:address location="http://localhost:8080/axis2/services/BookInfoImpl" />
+		</wsdl:port>
+		<wsdl:port name="BookInfoImplHttpSoap12Endpoint" binding="bis:BookInfoImplSoap12Binding">
+			<soap12:address location="http://localhost:8080/axis2/services/BookInfoImpl" />
+		</wsdl:port>
+		<wsdl:port name="BookInfoImplHttpEndpoint" binding="bis:BookInfoImplHttpBinding">
+			<http:address location="http://localhost:8080/axis2/services/BookInfoImpl" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

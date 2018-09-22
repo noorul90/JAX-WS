@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.4  Built on : Dec 28, 2015 (10:03:39 GMT) -->
+<serviceGroup>
+    <service name="ScoreBoardService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.bcci.cricket.services.ScoreBoardServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">com.bcci.cricket.services.ScoreBoardServiceSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="getInningScore" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://bcci.com/cricket/services">
+            <actionMapping>http://bcci.com/cricket/services#getInningScore</actionMapping>
+            <outputActionMapping>http://bcci.com/cricket/services/ScoreBoard/getInningScoreResponse</outputActionMapping>
+            <faultActionMapping faultName="scoreBoardFault">http://bcci.com/cricket/services/ScoreBoard/getInningScore/Fault/scoreBoardFault</faultActionMapping>
+            <faultActionMapping faultName="MatchNotFoundFault">http://bcci.com/cricket/services/ScoreBoard/getInningScore/Fault/scoreBoardFault</faultActionMapping>
+            <faultActionMapping faultName="MatchNotFoundFault_Exception">http://bcci.com/cricket/services/ScoreBoard/getInningScore/Fault/scoreBoardFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>
